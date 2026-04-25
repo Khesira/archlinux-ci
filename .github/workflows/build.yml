@@ -27,7 +27,7 @@ jobs:
             -v /dev:/dev \
             -v $(pwd):/build \
             archlinux:latest \
-            cd /build; ./build.sh"
+            /bin/bash -c "cd /build; ./build.sh"
           cat ./artifact_name.txt
           cat ./artifact_name.txt >> $GITHUB_OUTPUT
 # /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs;
