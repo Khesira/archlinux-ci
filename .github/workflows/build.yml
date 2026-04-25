@@ -27,19 +27,18 @@ jobs:
             -v /dev:/dev \
             -v $(pwd):/build \
             archlinux:latest \
-            /bin/bash -c "cd /build; ./build.sh"
+            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
           cat ./artifact_name.txt
           cat ./artifact_name.txt >> $GITHUB_OUTPUT
-# /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs;
 
       - name: Debug
         run: |
           echo "Image: ${{ steps.build_step.outputs.IMAGE_NAME }}"
 
-#      - name: Upload qcow2 artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ steps.build_step.outputs.IMAGE_NAME }}
-#          path: ./${{ steps.build_step.outputs.IMAGE_NAME }}
-#          if-no-files-found: error
-#          retention-days: 30
+      - name: Upload qcow2 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.build_step.outputs.IMAGE_NAME }}
+          path: ./${{ steps.build_step.outputs.IMAGE_NAME }}
+          if-no-files-found: error
+          retention-days: 30
