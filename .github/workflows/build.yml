@@ -24,6 +24,7 @@ jobs:
           # Manually start Arch container and mount dev of host
           docker run --privileged --rm \
             -e "GITHUB_OUTPUT=/github-output" \
+            -v "$GITHUB_OUTPUT:/github-output" \
             -v /dev:/dev \
             -v $(pwd):/build \
             archlinux:latest \
