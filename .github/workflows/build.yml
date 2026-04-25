@@ -29,10 +29,6 @@ jobs:
           cat ./artifact_name.txt
           cat ./artifact_name.txt >> $GITHUB_OUTPUT
 
-      - name: Set release filename
-        run: |
-          echo "RELEASE_FILENAME=${{ steps.build_step.outputs.IMAGE_NAME }}" >> "$GITHUB_ENV"
-
       - name: Upload qcow2 artifact
         uses: actions/upload-artifact@v4
         with:
@@ -46,7 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create "${GITHUB_REF_NAME}" \
-            "dist/${{ steps.build_step.outputs.IMAGE_NAME }}" \
+            "./${{ steps.build_step.outputs.IMAGE_NAME }}" \
             --title "${GITHUB_REF_NAME}" \
             --notes "Automatically generated image on $(date +%d.%m.%Y)" \
             --generate-notes
