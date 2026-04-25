@@ -23,16 +23,20 @@ jobs:
         run: |
           # Manually start Arch container and mount dev of host
           docker run --privileged --rm \
+            -e "GITHUB_OUTPUT=/github-output" \
             -v /dev:/dev \
             -v $(pwd):/build \
-            -e GITHUB_OUTPUT=/build/gh_output.txt \
             archlinux:latest \
-            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh; cat gh_output.txt >> $GITHUB_OUTPUT"
+            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh
 
-      - name: Upload ${{ steps.build_step.outputs.IMAGE_NAME }} artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.build_step.outputs.IMAGE_NAME }}
-          path: ./${{ steps.build_step.outputs.IMAGE_NAME }}
-          if-no-files-found: error
-          retention-days: 30
+      - name: Debug
+        run: |
+          echo "Image: ${{ steps.build_step.outputs.IMAGE_NAME }}"
+
+#      - name: Upload qcow2 artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: ${{ steps.build_step.outputs.IMAGE_NAME }}
+#          path: ./${{ steps.build_step.outputs.IMAGE_NAME }}
+#          if-no-files-found: error
+#          retention-days: 30
