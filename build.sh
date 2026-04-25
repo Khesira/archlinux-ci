@@ -35,6 +35,11 @@ FILE_NAME="archlinux-cloudinit-ext4-$(date +"%m-%d-%Y")"
 RAW="${FILE_NAME}.raw"
 QCOW="${FILE_NAME}.qcow2"
 
+# Check if we run in a GitHub action
+echo "IMAGE_NAME=${QCOW}" > artifact_name.txt
+
+exit 0
+
 REAL_USER=${SUDO_USER:-$(whoami)}
 REAL_GROUP=${SUDO_GID:-$(id -g "$REAL_USER")}
 
@@ -53,9 +58,6 @@ if [ ! -d "${MNT}" ]; then
     echo "Create mnt ${MNT}..."
     mkdir -p "${MNT}"
 fi
-
-# Check if we run in a GitHub action
-echo "IMAGE_NAME=${QCOW}" > artifact_name.txt
 
 sfdisk "${ARCH_LOOP}" <<EOF
 label: gpt

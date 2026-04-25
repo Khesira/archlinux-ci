@@ -32,7 +32,6 @@ jobs:
 
       - name: Debug
         run: |
-          cat ./artifact_name.txt >> $GITHUB_OUTPUT
           echo "Image: ${{ steps.build_step.outputs.IMAGE_NAME }}"
 
 #      - name: Upload qcow2 artifact
