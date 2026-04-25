@@ -24,7 +24,6 @@ jobs:
         run: |
           # Manually start Arch container and mount dev of host
           docker run --privileged --rm \
-            -v /dev:/dev \
             -v $(pwd):/build \
             archlinux:latest \
             /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
