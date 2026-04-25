@@ -1,0 +1,25 @@
+name: Build Arch Linux QCOW2 Image
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+      options: --privileged
+    steps:
+      - name: Install build tools
+        run: pacman -Syu --noconfirm arch-install-scripts dosfstools e2fsprogs qemu-base util-linux systemd
+      - name: Run Build Script
+        run: ./build.sh

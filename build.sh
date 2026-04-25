@@ -5,12 +5,30 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-TIMEZONE="Europe/Berlin"
-KEYMAP="de-latin1"
-LOCALE="en_US.UTF-8 UTF-8"
-HOSTNAME="archlinux-ci"
+if [ -f .env ]; then
+  source .env.example
+fi
 
-IMAGE_SIZE=20G
+if [ -z "${TIMEZONE}" ]; then
+  TIMEZONE="Europe/Berlin"
+fi
+
+if [ -z "${KEYMAP}" ]; then
+  KEYMAP="de-latin1"
+fi
+
+if [ -z "${LOCALE}" ]; then
+  LOCALE="en_US.UTF-8 UTF-8"
+fi
+
+if [ -z "${HOST_NAME}" ]; then
+  HOST_NAME="archlinux-ci"
+fi
+
+if [ -z "${IMAGE_SIZE}" ]; then
+  IMAGE_SIZE=20G
+fi
+
 FILE_NAME="archlinux-cloudinit-ext4-$(date +"%m-%d-%Y")"
 RAW="${FILE_NAME}.raw"
 QCOW="${FILE_NAME}.qcow2"
@@ -79,7 +97,7 @@ echo "KEYMAP=${KEYMAP}" > /etc/vconsole.conf
 locale-gen
 
 # Set hostname
-echo "${HOSTNAME}" > /etc/hostname
+echo "${HOST_NAME}" > /etc/hostname
 
 # Set hooks for systemd and create initramfs
 sed -i 's/^HOOKS=(.*/HOOKS=(systemd modconf kms sd-vconsole block filesystems fsck)/' /etc/mkinitcpio.conf
