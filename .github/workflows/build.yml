@@ -26,10 +26,11 @@ jobs:
             -v /dev:/dev \
             -v $(pwd):/build \
             archlinux:latest \
-            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh; echo ./artifact_name.txt >> $GITHUB_OUTPUT"
+            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
 
       - name: Debug
         run: |
+          cat ./artifact_name.txt >> $GITHUB_OUTPUT
           echo "Image: ${{ steps.build_step.outputs.IMAGE_NAME }}"
 
 #      - name: Upload qcow2 artifact
