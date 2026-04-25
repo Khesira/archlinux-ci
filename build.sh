@@ -88,6 +88,7 @@ pacstrap "${MNT}/" base \
   efibootmgr \
   vim
 
+genfstab -U "${MNT}/"
 genfstab -U "${MNT}/" > "${MNT}/etc/fstab"
 
 # chroot into the system and configure it
