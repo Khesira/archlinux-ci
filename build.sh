@@ -52,6 +52,11 @@ if [ ! -d "${MNT}" ]; then
     mkdir -p "${MNT}"
 fi
 
+# Check if we run in a GitHub action
+if [ -n "$GITHUB_OUTPUT" ]; then
+  echo "IMAGE_NAME=${QCOW}" >> "$GITHUB_OUTPUT"
+fi
+
 sfdisk "${ARCH_LOOP}" <<EOF
 label: gpt
 unit: sectors
