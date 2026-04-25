@@ -38,8 +38,6 @@ QCOW="${FILE_NAME}.qcow2"
 # Check if we run in a GitHub action
 echo "IMAGE_NAME=${QCOW}" > artifact_name.txt
 
-exit 0
-
 REAL_USER=${SUDO_USER:-$(whoami)}
 REAL_GROUP=${SUDO_GID:-$(id -g "$REAL_USER")}
 
