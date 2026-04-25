@@ -31,7 +31,7 @@ if [ -z "${IMAGE_SIZE}" ]; then
   IMAGE_SIZE=20G
 fi
 
-FILE_NAME="archlinux-cloudinit-ext4-$(date +"%m-%d-%Y")"
+FILE_NAME="archlinux-cloudinit-ext4"
 RAW="${FILE_NAME}.raw"
 QCOW="${FILE_NAME}.qcow2"
 
