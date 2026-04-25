@@ -27,7 +27,7 @@ jobs:
             -v $(pwd):/build \
             -e GITHUB_OUTPUT=/build/gh_output.txt \
             archlinux:latest \
-            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
+            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh; cat gh_output.txt >> $GITHUB_OUTPUT"
 
       - name: Upload qcow2 artifact
         uses: actions/upload-artifact@v4
