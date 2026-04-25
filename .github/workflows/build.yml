@@ -21,5 +21,7 @@ jobs:
     steps:
       - name: Install build tools
         run: pacman -Syu --noconfirm arch-install-scripts dosfstools e2fsprogs qemu-base util-linux systemd
+      - name: DEBUG
+        run: ls -la
       - name: Run Build Script
         run: ./build.sh
