@@ -15,16 +15,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: archlinux:latest
-      options: --privileged
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Install build tools
-        run: pacman -Syu --noconfirm arch-install-scripts dosfstools e2fsprogs qemu-base util-linux systemd
-      - name: DEBUG
-        run: ls -la
-      - name: Run Build Script
-        run: ./build.sh
+        - uses: actions/checkout@v4
+        - name: Build in Arch Container
+          run: |
+            # Manually start Arch container and mount dev of host
+            docker run --privileged --rm \
+              -v /dev:/dev \
+              -v $(pwd):/build \
+              archlinux:latest \
+              /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
