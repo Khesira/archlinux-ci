@@ -16,7 +16,7 @@ RAW="${FILE_NAME}.raw"
 QCOW="${FILE_NAME}.qcow2"
 
 REAL_USER=${SUDO_USER:-$(whoami)}
-REAL_GROUP=${SUDO_GID:-$(id -g $REAL_USER)}
+REAL_GROUP=${SUDO_GID:-$(id -g "$REAL_USER")}
 
 truncate -s "${IMAGE_SIZE}" "${RAW}"
 losetup -fP "${RAW}"
@@ -48,7 +48,7 @@ EOF
 
 mkfs.fat -F 32 "${ARCH_LOOPp1}"
 mkfs.ext4 "${ARCH_LOOPp2}"
-ROOT_UUID=$(blkid -s UUID -o value "${ARCH_LOOP}p2")
+ROOT_UUID=$(blkid -s UUID -o value "${ARCH_LOOPp2}")
 
 mount "${ARCH_LOOPp2}" "${MNT}"
 mkdir "${BOOT}"
@@ -67,6 +67,7 @@ pacstrap "${MNT}/" base \
 
 genfstab -U "${MNT}/" > "${MNT}/etc/fstab"
 
+# chroot into the system and configure it
 arch-chroot "${MNT}/" <<EOF
 # Set timezone
 ln -sf "/usr/share/zoneinfo/${TIMEZONE}" /etc/localtime
@@ -84,7 +85,7 @@ echo "${HOSTNAME}" > /etc/hostname
 sed -i 's/^HOOKS=(.*/HOOKS=(systemd modconf kms sd-vconsole block filesystems fsck)/' /etc/mkinitcpio.conf
 mkinitcpio -P
 
-# Bootloader Installation
+# systemd bootloader Installation
 bootctl install
 
 # Activate services
@@ -110,6 +111,7 @@ dd if=/dev/zero of=zero.fill bs=1M || true
 rm zero.fill
 EOF
 
+# Create boot loader entries
 cat <<EOF > "./${MNT}/boot/loader/loader.conf"
 default  arch.conf
 timeout  0
@@ -124,10 +126,12 @@ initrd  /initramfs-linux.img
 options root=UUID=${ROOT_UUID} rw
 EOF
 
+# Unmount file system
 umount "${BOOT}"
 umount "${MNT}/"
 losetup -d "${ARCH_LOOP}"
 
+# Convert raw image to qcow2 and cleanup
 qemu-img convert -c -f raw -O qcow2 "${RAW}" "${QCOW}"
 rm "${RAW}"
 chown "$REAL_USER":"$REAL_GROUP" "${QCOW}"
