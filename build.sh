@@ -55,9 +55,7 @@ if [ ! -d "${MNT}" ]; then
 fi
 
 # Check if we run in a GitHub action
-if [ -n "$GITHUB_OUTPUT" ]; then
-  echo "IMAGE_NAME=${QCOW}" >> "$GITHUB_OUTPUT"
-fi
+echo "IMAGE_NAME=${QCOW}" > artifact_name.txt
 
 sfdisk "${ARCH_LOOP}" <<EOF
 label: gpt

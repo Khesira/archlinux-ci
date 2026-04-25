@@ -23,12 +23,10 @@ jobs:
         run: |
           # Manually start Arch container and mount dev of host
           docker run --privileged --rm \
-            -e "GITHUB_OUTPUT=/github-output" \
-            -v "$GITHUB_OUTPUT:/github-output" \
             -v /dev:/dev \
             -v $(pwd):/build \
             archlinux:latest \
-            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
+            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh; echo ./artifact_name.txt >> $GITHUB_OUTPUT"
 
       - name: Debug
         run: |
