@@ -45,5 +45,5 @@ jobs:
             "./${{ steps.build_step.outputs.IMAGE_NAME }}" \
             --title "${GITHUB_REF_NAME}" \
             --notes "Automatically generated image on $(date +%d.%m.%Y)" \
-            --generate-notes
+            --generate-notes \
             --clobber
