@@ -149,6 +149,10 @@ initrd  /initramfs-linux.img
 options root=UUID=${ROOT_UUID} rw
 EOF
 
+cp "./${MNT}/etc/fstab" ./fstab
+cp "./${MNT}/boot/loader/loader.conf" ./loader.conf
+cp "./${MNT}/boot/loader/entries/arch.conf" ./arch.conf
+
 # Unmount file system
 umount "${BOOT}"
 umount "${MNT}/"

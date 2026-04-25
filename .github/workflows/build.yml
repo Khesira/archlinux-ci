@@ -39,6 +39,14 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+      - name: Upload debug artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-files
+          path: |
+            fstab
+            *.conf
+
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/release')
         env:
