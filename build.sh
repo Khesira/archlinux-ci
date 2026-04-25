@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -o pipefail
+
 if [[ $EUID -ne 0 ]]; then
    echo "Error: This script must be started using sudo"
    exit 1
