@@ -37,7 +37,7 @@ jobs:
           name: ${{ steps.build_step.outputs.IMAGE_NAME }}
           path: ./${{ steps.build_step.outputs.IMAGE_NAME }}
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 3
 
       - name: Upload debug artifacts
         uses: actions/upload-artifact@v4
