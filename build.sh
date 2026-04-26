@@ -8,7 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [ -f .env ]; then
-  source .env.example
+  source .env
 fi
 
 if [ -z "${TIMEZONE}" ]; then
@@ -28,7 +28,7 @@ if [ -z "${HOST_NAME}" ]; then
 fi
 
 if [ -z "${IMAGE_SIZE}" ]; then
-  IMAGE_SIZE=20G
+  IMAGE_SIZE=50G
 fi
 
 FILE_NAME="archlinux-cloudinit-ext4"

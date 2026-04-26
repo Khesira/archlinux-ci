@@ -4,4 +4,4 @@
 mnt/
 *.qcow2
 *.raw
-.env.example
+.env
