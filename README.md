@@ -25,6 +25,13 @@ The resulting image is optimized for virtualization platforms like Proxmox, QEMU
 - For local builds: A Linux environment with `qemu-img`, `sfdisk`, and `arch-install-scripts`.
 - For CI: A GitHub repository with Actions enabled.
 
+### Customization
+
+To set your own timezone, locale, keymap, hostname, and preferred image size, edit copy the .env.exampe to .env and modify the variables accordingly.
+```bash
+cp .env.example .env
+```
+
 ### Building Locally
 
 To build the image manually on your machine:
