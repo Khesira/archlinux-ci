@@ -30,22 +30,17 @@ jobs:
             /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
           cat ./artifact_name.txt
           cat ./artifact_name.txt >> $GITHUB_OUTPUT
+          sha256sum "${{ steps.build_step.outputs.IMAGE_NAME }}" > "${{ steps.build_step.outputs.IMAGE_NAME }}.SHA256"
 
       - name: Upload qcow2 artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.build_step.outputs.IMAGE_NAME }}
-          path: ./${{ steps.build_step.outputs.IMAGE_NAME }}
+          path: |
+            ./${{ steps.build_step.outputs.IMAGE_NAME }}
+            ./${{ steps.build_step.outputs.IMAGE_NAME }}.SHA256
           if-no-files-found: error
           retention-days: 3
-
-      - name: Upload debug artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-files
-          path: |
-            fstab
-            *.conf
 
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/release')
@@ -54,6 +49,7 @@ jobs:
         run: |
           gh release create "${GITHUB_REF_NAME}" \
             "./${{ steps.build_step.outputs.IMAGE_NAME }}" \
+            "./${{ steps.build_step.outputs.IMAGE_NAME }}.SHA256" \
             --title "${GITHUB_REF_NAME}" \
             --notes "Automatically generated image on $(date +%d.%m.%Y)" \
             --generate-notes
