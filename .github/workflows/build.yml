@@ -29,7 +29,6 @@ jobs:
             archlinux:latest \
             /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
           ls -la
-          ls -la ./build
           IMAGE_NAME="$(cat ./artifact_name.txt)"
           echo "${IMAGE_NAME}"
           echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
