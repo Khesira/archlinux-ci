@@ -28,9 +28,10 @@ jobs:
             -v $(pwd):/build \
             archlinux:latest \
             /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
-          cat ./artifact_name.txt
-          cat ./artifact_name.txt >> $GITHUB_OUTPUT
-          sha256sum "${{ steps.build_step.outputs.IMAGE_NAME }}" > "${{ steps.build_step.outputs.IMAGE_NAME }}.SHA256"
+          IMAGE_NAME="$(cat ./artifact_name.txt)"
+          echo "${IMAGE_NAME}"
+          echo "${IMAGE_NAME}" >> $GITHUB_OUTPUT
+          sha256sum "./build/${IMAGE_NAME}" > "${IMAGE_NAME}.SHA256"
 
       - name: Upload qcow2 artifact
         uses: actions/upload-artifact@v4
