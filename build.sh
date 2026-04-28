@@ -95,6 +95,10 @@ UUID=$EFI_UUID /boot vfat defaults 0 2
 UUID=$ROOT_UUID / ext4 defaults 0 1
 EOF
 
+# Ensure pacman configs are available
+cp /etc/pacman.conf "${MNT}/etc/pacman.conf"
+cp /etc/pacman.d/mirrorlist "${MNT}/etc/pacman.d/mirrorlist"
+
 # chroot into the system and configure it
 arch-chroot "${MNT}/" <<EOF
 # Set timezone
