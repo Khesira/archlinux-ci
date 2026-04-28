@@ -27,7 +27,7 @@ jobs:
             -v /dev:/dev \
             -v $(pwd):/build \
             archlinux:latest \
-            /bin/bash -c "pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
+            /bin/bash -c "pacman-key --init; pacman -Syu --noconfirm arch-install-scripts qemu-base dosfstools e2fsprogs; cd /build; ./build.sh"
           ls -la
           IMAGE_NAME="$(cat ./artifact_name.txt)"
           echo "${IMAGE_NAME}"
