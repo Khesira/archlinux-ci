@@ -120,7 +120,8 @@ systemctl enable \
   systemd-networkd.service \
   systemd-resolved.service \
   systemd-timesyncd \
-  systemd-time-wait-sync
+  systemd-time-wait-sync \
+  cloud-init.target \
   cloud-init-main.service \
   cloud-init-local.service \
   cloud-init-network.service \
