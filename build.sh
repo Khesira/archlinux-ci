@@ -135,9 +135,7 @@ rm -rf /var/cache/pacman/pkg/*
 rm -rf /var/log/*
 rm -rf /tmp/*
 
-## Nullify whole remaining space
-# dd if=/dev/zero of=zero.fill bs=1M || true
-# rm zero.fill
+rm /etc/machine-id
 EOF
 
 # Create boot loader entries
@@ -155,13 +153,10 @@ initrd  /initramfs-linux.img
 options root=UUID=${ROOT_UUID} rw
 EOF
 
-cp "./${MNT}/etc/fstab" ./fstab
-cp "./${MNT}/boot/loader/loader.conf" ./loader.conf
-cp "./${MNT}/boot/loader/entries/arch.conf" ./arch.conf
-
 fstrim --verbose "${MNT}"
 fstrim --verbose "${MNT}/boot"
-rm "${MNT}/etc/machine-id"
+
+sync
 
 # Unmount file system
 umount "${BOOT}"
