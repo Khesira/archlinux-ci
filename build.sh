@@ -136,6 +136,10 @@ rm -rf /var/log/*
 rm -rf /tmp/*
 
 rm /etc/machine-id
+
+## Nullify whole remaining space
+# dd if=/dev/zero of=zero.fill bs=1M || true
+# rm zero.fill
 EOF
 
 # Create boot loader entries
@@ -152,11 +156,6 @@ linux   /vmlinuz-linux
 initrd  /initramfs-linux.img
 options root=UUID=${ROOT_UUID} rw
 EOF
-
-fstrim --verbose "${MNT}"
-fstrim --verbose "${MNT}/boot"
-
-sync
 
 # Unmount file system
 umount "${BOOT}"
