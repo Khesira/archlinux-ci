@@ -138,8 +138,10 @@ rm -rf /tmp/*
 rm /etc/machine-id
 
 ## Nullify whole remaining space
-# dd if=/dev/zero of=zero.fill bs=1M || true
-# rm zero.fill
+dd if=/dev/zero of=zero.fill bs=1M || true
+dd if=/dev/zero of=/boot/zero.fill bs=1M || true
+rm zero.fill
+rm /boot/zero.fill
 EOF
 
 # Create boot loader entries
@@ -156,6 +158,8 @@ linux   /vmlinuz-linux
 initrd  /initramfs-linux.img
 options root=UUID=${ROOT_UUID} rw
 EOF
+
+sync
 
 # Unmount file system
 umount "${BOOT}"
