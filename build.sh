@@ -31,7 +31,7 @@ if [ -z "${IMAGE_SIZE}" ]; then
   IMAGE_SIZE=50G
 fi
 
-IMAGE_NAME="archlinux-cloudinit-ext4"
+IMAGE_NAME="arch-linux-x86_64-cloudinit-ext4"
 RAW="${IMAGE_NAME}.raw"
 QCOW="${IMAGE_NAME}.qcow2"
 
@@ -119,6 +119,8 @@ bootctl install
 systemctl enable \
   systemd-networkd.service \
   systemd-resolved.service \
+  systemd-timesyncd \
+  systemd-time-wait-sync
   cloud-init-main.service \
   cloud-init-local.service \
   cloud-init-network.service \
@@ -156,6 +158,8 @@ EOF
 cp "./${MNT}/etc/fstab" ./fstab
 cp "./${MNT}/boot/loader/loader.conf" ./loader.conf
 cp "./${MNT}/boot/loader/entries/arch.conf" ./arch.conf
+
+rm "${MNT}/etc/machine-id"
 
 # Unmount file system
 umount "${BOOT}"
