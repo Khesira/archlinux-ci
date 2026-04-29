@@ -136,8 +136,8 @@ rm -rf /var/log/*
 rm -rf /tmp/*
 
 ## Nullify whole remaining space
-dd if=/dev/zero of=zero.fill bs=1M || true
-rm zero.fill
+# dd if=/dev/zero of=zero.fill bs=1M || true
+# rm zero.fill
 EOF
 
 # Create boot loader entries
@@ -159,6 +159,8 @@ cp "./${MNT}/etc/fstab" ./fstab
 cp "./${MNT}/boot/loader/loader.conf" ./loader.conf
 cp "./${MNT}/boot/loader/entries/arch.conf" ./arch.conf
 
+fstrim --verbose "${MNT}"
+fstrim --verbose "${MNT}/boot"
 rm "${MNT}/etc/machine-id"
 
 # Unmount file system
