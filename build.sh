@@ -137,6 +137,7 @@ rm -rf /var/log/*
 rm -rf /tmp/*
 
 rm /etc/machine-id
+rm /etc/resolv.conf
 
 ## Nullify whole remaining space
 dd if=/dev/zero of=zero.fill bs=1M || true
