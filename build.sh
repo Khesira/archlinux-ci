@@ -115,6 +115,19 @@ mkinitcpio -P
 # systemd bootloader Installation
 bootctl install
 
+# Configure cloudinit
+mkdir -p /etc/cloud/cloud.cfg.d
+echo "system_info:
+  network:
+    renderers: ['systemd-networkd']" > /etc/cloud/cloud.cfg.d/99-network-renderer.cfg
+
+# Avoid clearing network config after each reboot
+echo "network: {config: disabled}" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+
+
+rm /etc/resolv.conf
+ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
 # Activate services
 systemctl enable \
   systemd-networkd.service \
@@ -137,7 +150,6 @@ rm -rf /var/log/*
 rm -rf /tmp/*
 
 rm /etc/machine-id
-rm /etc/resolv.conf
 
 ## Nullify whole remaining space
 dd if=/dev/zero of=zero.fill bs=1M || true
