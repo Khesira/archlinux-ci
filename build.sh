@@ -115,16 +115,6 @@ mkinitcpio -P
 # systemd bootloader Installation
 bootctl install
 
-# Configure cloudinit
-mkdir -p /etc/cloud/cloud.cfg.d
-echo "system_info:
-  network:
-    renderers: ['systemd-networkd']" > /etc/cloud/cloud.cfg.d/99-network-renderer.cfg
-
-# Avoid clearing network config after each reboot
-echo "network: {config: disabled}" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
-
-
 rm /etc/resolv.conf
 ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
@@ -134,10 +124,8 @@ systemctl enable \
   systemd-resolved.service \
   systemd-timesyncd \
   systemd-time-wait-sync \
-  cloud-init.target \
-  cloud-init-main.service \
   cloud-init-local.service \
-  cloud-init-network.service \
+  cloud-init.service
   cloud-config.service \
   cloud-final.service \
   sshd \
@@ -157,6 +145,20 @@ dd if=/dev/zero of=/boot/zero.fill bs=1M || true
 rm zero.fill
 rm /boot/zero.fill
 EOF
+
+# Configure cloudinit
+mkdir -p "./${MNT}/etc/cloud/cloud.cfg.d"
+cat <<EOF > "./${MNT}/etc/cloud/cloud.cfg.d/99-network-renderer.cfg"
+network:
+  method: systemd-networkd
+EOF
+#cat <<EOF > "./${MNT}/etc/cloud/cloud.cfg.d/10_arch_network.cfg"
+#system_info:
+#   network:
+#      renderers: ['networkd']
+#EOF
+# Avoid clearing network config after each reboot
+#echo "network: {config: disabled}" > "./${MNT}/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg"
 
 # Create boot loader entries
 cat <<EOF > "./${MNT}/boot/loader/loader.conf"
