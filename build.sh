@@ -160,7 +160,7 @@ cat <<EOF > "./${MNT}/boot/loader/entries/arch.conf"
 title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /initramfs-linux.img
-options root=UUID=${ROOT_UUID} rw
+options root=UUID=${ROOT_UUID} rw net.ifnames=0 biosdevname=0
 EOF
 
 sync
