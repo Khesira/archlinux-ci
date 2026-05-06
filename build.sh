@@ -141,6 +141,9 @@ rm -rf /tmp/*
 
 truncate -s 0 /etc/machine-id
 
+pacman-key --init
+pacman-key --populate archlinux
+
 ## Nullify whole remaining space
 dd if=/dev/zero of=zero.fill bs=1M || true
 dd if=/dev/zero of=/boot/zero.fill bs=1M || true
