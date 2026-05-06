@@ -60,7 +60,7 @@ chmod +x release.sh
 You can download the latest image directly to your storage node using the static GitHub release link:
 
 ```
-wget https://github.com/Khesira/archlinux-ci/releases/latest/download/archlinux-cloudinit-ext4.qcow2
+wget https://github.com/Khesira/archlinux-ci/releases/latest/download/arch-linux-x86_64-cloudinit-ext4.qcow2
 ```
 
 ---

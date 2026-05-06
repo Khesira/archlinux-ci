@@ -115,8 +115,6 @@ mkinitcpio -P
 # systemd bootloader Installation
 bootctl install
 
-
-
 umount -l /etc/resolv.conf
 rm /etc/resolv.conf
 ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
