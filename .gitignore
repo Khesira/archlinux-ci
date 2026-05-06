@@ -5,3 +5,4 @@ mnt/
 *.qcow2
 *.raw
 .env
+artifact_name.txt

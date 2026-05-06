@@ -115,16 +115,9 @@ mkinitcpio -P
 # systemd bootloader Installation
 bootctl install
 
-# Configure cloudinit
-mkdir -p /etc/cloud/cloud.cfg.d
-echo "system_info:
-  network:
-    renderers: ['systemd-networkd']" > /etc/cloud/cloud.cfg.d/99-network-renderer.cfg
-
-# Avoid clearing network config after each reboot
-echo "network: {config: disabled}" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
 
 
+umount -l /etc/resolv.conf
 rm /etc/resolv.conf
 ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
@@ -134,7 +127,6 @@ systemctl enable \
   systemd-resolved.service \
   systemd-timesyncd \
   systemd-time-wait-sync \
-  cloud-init.target \
   cloud-init-main.service \
   cloud-init-local.service \
   cloud-init-network.service \
@@ -149,7 +141,7 @@ rm -rf /var/cache/pacman/pkg/*
 rm -rf /var/log/*
 rm -rf /tmp/*
 
-rm /etc/machine-id
+truncate -s 0 /etc/machine-id
 
 ## Nullify whole remaining space
 dd if=/dev/zero of=zero.fill bs=1M || true
